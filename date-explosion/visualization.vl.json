@@ -1,0 +1,112 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v4.json",
+  "description": "A demonstration of how a combination of the sequence() expression and the flatten transform can be combined to explode dates",
+  "usermeta": {
+    "developedBy": "Madison Giammaria",
+    "LinkedIn": "https://www.linkedin.com/in/madison-giammaria-58463b33",
+    "email": "giammariam@gmail.com"
+  },
+  "background": "#fee",
+  "params": [{"name": "msPerDay", "expr": "86400000"}],
+  "spacing": -22,
+  "data": {
+    "name": "table",
+    "values": [{"item": "Item A", "start": "01/01/2023", "end": "01/10/2023"}]
+  },
+  "transform": [
+    {
+      "calculate": "sequence(toDate(datum['start']), toDate(datum['end'])+msPerDay, msPerDay)",
+      "as": "date"
+    },
+    {"flatten": ["date"], "as": ["date"]},
+    {"calculate": "utcFormat(datum['date'], '%m/%d/%y')", "as": "date"}
+  ],
+  "center": true,
+  "vconcat": [
+    {
+      "transform": [
+        {"fold": ["start", "end"], "as": ["type", "date"]},
+        {
+          "window": [{"op": "row_number", "as": "rn"}],
+          "groupby": ["item", "type"]
+        },
+        {"filter": "datum['rn']===1"}
+      ],
+      "encoding": {
+        "x": {
+          "field": "type",
+          "axis": {
+            "title": "Before Date Explosion",
+            "labelAngle": 0,
+            "orient": "top",
+            "titlePadding": 10
+          },
+          "sort": {"field": "type", "order": "descending"}
+        },
+        "y": {"field": "item", "axis": null}
+      },
+      "width": {"step": 75},
+      "height": {"step": 30},
+      "layer": [
+        {"mark": {"type": "rect", "fill": "#fff", "stroke": "firebrick"}},
+        {"mark": {"type": "text"}, "encoding": {"text": {"field": "date"}}}
+      ]
+    },
+    {
+      "data": {"values": [{}]},
+      "layer": [
+        {
+          "mark": {
+            "type": "text",
+            "text": {"expr": "['|','💥']"},
+            "baseline": "middle",
+            "align": "center",
+            "fontSize": 20,
+            "fontWeight": 100,
+            "color": "firebrick"
+          }
+        }
+      ]
+    },
+    {
+      "data": {"values": [{}]},
+      "layer": [
+        {
+          "mark": {
+            "type": "rect",
+            "x": {"expr": "0"},
+            "x2": {"expr": "range('concat_3_x')[1]-bandwidth('concat_3_x')"},
+            "height": 0.0005,
+            "stroke": "firebrick"
+          }
+        }
+      ]
+    },
+    {
+      "encoding": {
+        "x": {
+          "field": "date",
+          "axis": {
+            "domain": false,
+            "domainColor": "firebrick",
+            "tickSize": 25,
+            "tickColor": "firebrick",
+            "labels": false,
+            "orient": "top",
+            "titleY": 60,
+            "title": "After Explosion Date",
+            "offset": 5
+          },
+          "sort": {"field": "date", "order": "ascending"}
+        },
+        "y": {"field": "item", "axis": null}
+      },
+      "width": {"step": 75},
+      "height": {"step": 30},
+      "layer": [
+        {"mark": {"type": "rect", "fill": "#fff", "stroke": "firebrick"}},
+        {"mark": {"type": "text"}, "encoding": {"text": {"field": "date"}}}
+      ]
+    }
+  ]
+}
