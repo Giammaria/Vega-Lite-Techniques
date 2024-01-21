@@ -94,7 +94,7 @@
             "labels": false,
             "orient": "top",
             "titleY": 60,
-            "title": "After Explosion Date",
+            "title": "After Date Explosion",
             "offset": 5
           },
           "sort": {"field": "date", "order": "ascending"}
