@@ -1,6 +1,6 @@
 {
   "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
-  "description": "A technique to dynamically adjust the Y-axis behavior based on whether the measure is a percentage.",
+    "description": "A technique to dynamically adjust the Y-axis behavior based on whether the measure is a percentage.",
   "usermeta": {
     "developedBy": "Madison Giammaria",
     "LinkedIn": "https://www.linkedin.com/in/madison-giammaria-58463b33",
@@ -59,9 +59,7 @@
         "type": "text",
         "baseline": "middle",
         "fontSize": 14,
-        "text": {
-          "expr": "data('data_0')[0]['unit'] === 'percentage' ? format(datum['value'], '.0%') : format(datum['value'], '0.2f')"
-        },
+        "text": {"expr": "data('data_0')[0]['unit'] === 'percentage' ? format(datum['value'], '.0%') : format(datum['value'], '0.2f')"},
         "yOffset": {
           "expr": "scale('layer_0_y', datum['value']) > height/2 ? -12.5 : 17.5 "
         },
@@ -96,9 +94,11 @@
       "type": "quantitative",
       "field": "value",
       "scale": {
+        /**** domainMax based on whether the field 'unit' is percentage or number ****/
         "domainMax": {
           "expr": "data('data_0')[0]['unit'] === 'percentage' ? 1 : null"
         },
+        /***********************/
         "nice": true
       },
       "axis": {

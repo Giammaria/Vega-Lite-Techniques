@@ -1,7 +1,7 @@
 {
   "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
   "description": "A demonstration of leveraging the luminance() expression to determine whether to use dark or light font",
-  "usermeta": {
+    "usermeta": {
     "developedBy": "Madison Giammaria",
     "LinkedIn": "https://www.linkedin.com/in/madison-giammaria-58463b33",
     "email": "giammariam@gmail.com"
@@ -82,7 +82,9 @@
         "fontSize": 22.5,
         "x": {"expr": "width/2"},
         "y": {"expr": "height/2"},
+        /**** luminance() for font fill here ****/
         "fill": {"expr": "luminance(rgb) >= 0.45 ? '#222' : '#eee'"}
+        /****************************************/
       }
     }
   ]

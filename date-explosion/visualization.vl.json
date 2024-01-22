@@ -14,12 +14,14 @@
     "values": [{"item": "Item A", "start": "01/01/2023", "end": "01/10/2023"}]
   },
   "transform": [
+    /****** Transformation Starts Here ********/
     {
       "calculate": "sequence(toDate(datum['start']), toDate(datum['end'])+msPerDay, msPerDay)",
       "as": "date"
     },
     {"flatten": ["date"], "as": ["date"]},
     {"calculate": "utcFormat(datum['date'], '%m/%d/%y')", "as": "date"}
+    /****** Transformation Ends Here ********/
   ],
   "center": true,
   "vconcat": [
@@ -94,7 +96,7 @@
             "labels": false,
             "orient": "top",
             "titleY": 60,
-            "title": "After Date Explosion",
+            "title": "After Explosion Date",
             "offset": 5
           },
           "sort": {"field": "date", "order": "ascending"}
