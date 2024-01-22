@@ -1,6 +1,15 @@
 # Vega-Lite-Techniques
 This is a growing compilation of some of my favorite visual techniques in Vega-Lite. My hope is that others can learn, critique, and gain inspiration from visiting this collection.
+‎ 
 
+‎
+## Contextual Y-Axis Behavior
+![](contextual-y-axis/artifacts/screenshot.gif)<br>
+A technique to dynamically adjust the Y-axis behavior based on whether the measure is a percentage.  Comments are surrounding the <code>domainMax</code> property to make it easier to find in the JSON [specification](contextual-y-axis/visualization.vl.json).
+|Vega-Lite|
+|-|
+|[Open the Chart with the Vega Editor](https://vega.github.io/editor/#/url/vega-lite/N4KABGBEAkDODGALApgWwIaQFxUQFzwAdYsB6UgN2QHN0A6agSz0QFcAjOxge1IRQyUa6ALQAbZskoBWOgCtY3AHaQANOAhQAJsgQAnRoTw8VOSAEEweZEiWMAjq2RXuYLQE8l6VI3joxYu5g6FpyrLB4VihgAJoi6AAejLBg7MiI6BQ8eqnosMhaYMpgAO4oLMg5FWCoyHmses7JwWCElfDISnjo1Mh0ahqQ4ZW13dhgoJrayFRi3G1aAELu45AAsiHJxQDijN4YBpjqU5AAMoxKANYFAJKmuATEZKQlr3QSVwUXdPDcqKQXUgYLRbJQiJj7dCHETSAAcABYAGwAZnYyORAxOaHQjDEqwhqAOe1QAAFqBhcT8-pANABfY5QEqMLQscYAdgADByGZBCCEQUpqOMAEzcwZZZAlcbASARPTca6rPB6dBKWB8xpdSD0wYa7ywcYAbQ0EBlXlqqxQjGo+DUUGQCUIelWTJZiAAVBy6MjpNqGaaTZpIObkKs-NZqNw9O4AMIANX8TkxUygFEToZwXrZ0n9QfYFy00sDJwuhFYeFWKsFodzJx89zFKaDGAS4wAjHQc8WgxFkIRxl6OW3a0GQ6sY+hIvAwGmxEnu7TAzqppMU8HvBmoO5zElYOZYAAFdqdbq9ZMnWdJnDKpwjyD5pSFnAy0vlsMoeCXdjcVuqKBjsw4kSZo8jAABSbUlw0ABdHktEnTBn0DdcLTMeDunyCtc0gS9dCNbsZXDGgoxWMwjlTdMBzoYVpGXFNCMnYjo1Wdg7RwyjM29WiRwYiMSLDSCpmgukeWVVVYAAMyjVB8JXbtID8MR4FYMRGNWdDWFQQ0AHIiMjaNtOgsAAF5TLAXTtLAAB+MA9JI+N0zAHANK07TcMM88gzyVZcJpKY6NNBT-GU1TrFWbdd33I89A6LoemcGztLaGKT3iyycG0pRNLSPRtLY7yzFYOwK0XCBYMGRpFDEKhpVlRTNxlUioALPtOh0LVaToyBVPcSpZM0Vc6yhS4iybCBIDwdw2hYqFPJOCTcTxMwAGJ0TWjER3GhaAgAeT5eBmCa4du3G349CUSoACVNnCAAVeZTmQCSK2fSAHSdS1kGtfBPToDkMQCtczouvRrpBO75ku76XomN7HWdMwrRtPBfv+wSU1KzRAcG5thtGsaJqmzcJodLCTqgdg8mQD5iZ8LQtDEGtycgKSugAZUYAAvTc23hTaoGsBIYZld6Ee0BCAAptPQ9AAH0OW0gBKQ0OWgnSiuYQyTLMpLjzi3pLJsqS9AwPAJZcnT3Ng8y-rApWnLAY3TfNydNMt9NDL-bSvWFCSlb9Zn3B2iSJMw-GxvteHVgQfxkClnrKnl2X3G0v8Lbcj3oMVsAAD4wCR-BSGFaywBENthU7B22zZSu-LGwH5sW8OCdF6P6vj9Ber0JOU7T13XKt7O84LvAi5L7Tlq5BWHYnkO-agcnMf8u9Ol+AUhSQiPICanGm0J6azEcVVjG6Ywav5rbGGpp8KLnJmI-GmPGebretD+HElA2VtN4frEo7QyW0sELyyVirNW2kNZ4C1qZYy5lkqxVPMgQ2YA2wOyygEOuv8G4EzsB0cYN5kAXyDPAVSqB+zXj0E4cmEBsEnGAgaHA6CxCLwXFBMqPJV7cHXs3SA38JjyUmgff8fwLj+DmlABa18wyMX0isO89DaqqTSGIcwgpn6ZmwXVWOtU+T0wuNQO4IMqKIlokubCO8BFE1WEfLozBJyMHPvJSRYgb7sTvuIrR6j+ER1IO6Px7o3DvwuF-XI+RCjFDKMgCoVRojOMKBA4qllmjwNSr0IoOQsqoBymAfx7pSDMzfhST+iQX5rlbgA7oUsZYgOVqrdWiSjIwLgXrRByDUGMJUniRe-NfG5L6f0gZ+St64M3AQhc8jdylPGko6mABRf+4tKlAO6DUsB9TNaNJ1ik-WSCS5O0nC7PAml3joGUV7W29scD7LNi5E5ZzzI+z9orcR41jCfhjNwIqwtqGRw+hU9AVTgEK1qeAyB0CtktLSiXNs7SwBMMwRjVh-kRKDF+EoBaG9YYKNeoUj+4wJL+HyH+CavhLgMMdoSwhUAZliAAGLKDwBzbm7ZhSdRALSIAA/view)|
+|[Open the Vega-Lite Specification](contextual-y-axis/visualization.vl.json)|
 ‎ 
 
 ‎
@@ -16,7 +25,7 @@ A demonstration combining the sequence() expression and the flatten transform to
 ‎
 ## Luminance() to Determine Font Color
 ![](/luminance/artifacts/screenshot.png)<br>
-You can leverage the luminance() expression to determine whether to use dark or light font. Comments are surrounding the luminance expression to make it easier to find in the JSON specification.
+You can leverage the luminance() expression to determine whether to use dark or light font. Comments are surrounding the luminance expression to make it easier to find in the JSON [specification](luminance/visualization.vl.json).
 <Description>
 |Vega-Lite|
 |-|

@@ -1,0 +1,113 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "description": "A technique to dynamically adjust the Y-axis behavior based on whether the measure is a percentage.",
+  "usermeta": {
+    "developedBy": "Madison Giammaria",
+    "LinkedIn": "https://www.linkedin.com/in/madison-giammaria-58463b33",
+    "email": "giammariam@gmail.com"
+  },
+  "width": 700,
+  "padding": 20,
+  "view": {"stroke": "transparent"},
+  "params": [
+    {"name": "height", "expr": "width*0.35"},
+    {
+      "name": "categoryCValue",
+      "value": 0.75,
+      "bind": {
+        "input": "range",
+        "min": 0,
+        "max": 1.5,
+        "step": 0.01,
+        "name": "Cat c value"
+      }
+    },
+    {
+      "name": "yAxisAsPercentage",
+      "value": true,
+      "bind": {"input": "checkbox", "name": "Y-axis as %"}
+    }
+  ],
+  "data": {
+    "name": "dataset",
+    "values": [
+      {"category": "a", "value": 0.25},
+      {"category": "b", "value": 0.35},
+      {"category": "c"}
+    ]
+  },
+  "transform": [
+    {
+      "calculate": "datum['category'] === 'c' ? categoryCValue : datum['value']",
+      "as": "value"
+    },
+    {"calculate": "yAxisAsPercentage ? 'percentage' : 'number'", "as": "unit"}
+  ],
+  "resolve": {"scale": {"y": "independent"}},
+  "layer": [
+    {
+      "mark": {
+        "type": "bar",
+        "fill": "#333333",
+        "fillOpacity": 1,
+        "cornerRadiusTopLeft": {"expr": "height*0.03"},
+        "cornerRadiusTopRight": {"expr": "height*0.03"}
+      }
+    },
+    {
+      "mark": {
+        "type": "text",
+        "baseline": "middle",
+        "fontSize": 14,
+        "text": {
+          "expr": "data('data_0')[0]['unit'] === 'percentage' ? format(datum['value'], '.0%') : format(datum['value'], '0.2f')"
+        },
+        "yOffset": {
+          "expr": "scale('layer_0_y', datum['value']) > height/2 ? -12.5 : 17.5 "
+        },
+        "fill": {
+          "expr": "scale('layer_0_y', datum['value']) > height/2 ? '#000' : '#fff' "
+        }
+      },
+      "encoding": {
+        "y": {
+          "type": "quantitative",
+          "field": "value",
+          "scale": {
+            "domainMax": {
+              "expr": "data('data_0')[0]['unit'] === 'percentage' ? 1 : null"
+            },
+            "nice": true,
+            "clamp": true
+          },
+          "axis": null
+        }
+      }
+    }
+  ],
+  "encoding": {
+    "x": {
+      "type": "nominal",
+      "field": "category",
+      "axis": {"labelAngle": 0},
+      "scale": {"paddingInner": 0.65}
+    },
+    "y": {
+      "type": "quantitative",
+      "field": "value",
+      "scale": {
+        "domainMax": {
+          "expr": "data('data_0')[0]['unit'] === 'percentage' ? 1 : null"
+        },
+        "nice": true
+      },
+      "axis": {
+        "labelExpr": "data('data_0')[0]['unit'] === 'percentage' ? format(datum.label, '.0%') : format(datum.label, '0.2f')",
+        "tickCount": {
+          "expr": "data('data_0')[0]['unit'] === 'percentage' ? 11 : null"
+        }
+      }
+    }
+  },
+  "config": {"axis": {"domain": false, "ticks": false, "labelFontSize": 12}}
+}
