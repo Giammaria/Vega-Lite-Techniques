@@ -1,0 +1,89 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "description": "A demonstration of leveraging the luminance() expression to determine whether to use dark or light font",
+  "usermeta": {
+    "developedBy": "Madison Giammaria",
+    "LinkedIn": "https://www.linkedin.com/in/madison-giammaria-58463b33",
+    "email": "giammariam@gmail.com"
+  },
+  "width": 350,
+  "height": 250,
+  "title": {
+    "text": "Dynamic Font Colors",
+    "anchor": "start",
+    "orient": "bottom",
+    "color": "#eee",
+    "fontSize": 20,
+    "subtitle": "Adjust the RGB sliders below to change the circle fill.",
+    "subtitleColor": "lightgray",
+    "subtitleFontSize": 14,
+    "subtitleLineHeight": 100,
+    "subtitleFontStyle": "italic",
+    "subtitlePadding": 5
+  },
+  "background": {"expr": "'#000'"},
+  "params": [
+    {
+      "name": "r",
+      "value": 57,
+      "bind": {"input": "range", "min": 0, "max": 256, "step": 1, "name": "R"}
+    },
+    {
+      "name": "g",
+      "value": 143,
+      "bind": {"input": "range", "min": 0, "max": 256, "step": 1, "name": "G"}
+    },
+    {
+      "name": "b",
+      "value": 98,
+      "bind": {"input": "range", "min": 0, "max": 256, "step": 1, "name": "B"}
+    },
+    {"name": "rgb", "expr": "rgb(r,g,b)"}
+  ],
+  "layer": [
+    {
+      "name": "circle_background1",
+      "data": {"values": [{}]},
+      "mark": {
+        "type": "arc",
+        "radius": {"expr": "min(width/2.1,height/2.1)"},
+        "x": {"expr": "width/2"},
+        "y": {"expr": "height/2"},
+        "fill": "#fff",
+        "stroke": {"expr": "rgb"},
+        "strokeWidth": 40,
+        "strokeOpacity": {"expr": "0.45"}
+      }
+    },
+    {
+      "name": "circle_background2",
+      "data": {"values": [{}]},
+      "mark": {
+        "type": "arc",
+        "radius": {"expr": "min(width/2.3,height/2.3)"},
+        "x": {"expr": "width/2"},
+        "y": {"expr": "height/2"},
+        "fill": {"expr": "rgb"},
+        "stroke": {"expr": "rgb"},
+        "strokeWidth": 40,
+        "strokeOpacity": {"expr": "0.45"}
+      }
+    },
+    {
+      "name": "circle_labels",
+      "data": {"values": [{}]},
+      "mark": {
+        "type": "text",
+        "text": {
+          "expr": "['RGB('+ r +',' + g + ',' + b + ')', 'Luminance = ' + format(clamp(luminance(rgb), 0, 1), '0.3f'), (luminance(rgb) >= 0.45 ? 'Dark' : 'Light') + ' Font']"
+        },
+        "align": "center",
+        "baseline": "bottom",
+        "fontSize": 22.5,
+        "x": {"expr": "width/2"},
+        "y": {"expr": "height/2"},
+        "fill": {"expr": "luminance(rgb) >= 0.45 ? '#222' : '#eee'"}
+      }
+    }
+  ]
+}
