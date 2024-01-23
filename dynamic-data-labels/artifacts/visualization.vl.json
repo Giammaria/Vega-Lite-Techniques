@@ -1,0 +1,137 @@
+{
+    "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+    "description": "Dynamically show/hide/truncate/position data labels with monospace fonts based on their available space.",
+     "usermeta": {
+      "developedBy": "Madison Giammaria",
+      "LinkedIn": "https://www.linkedin.com/in/madison-giammaria-58463b33",
+      "email": "giammariam@gmail.com"
+    },
+    "title": {"text": "Dynamic Labels", "subtitle": "With Monospace Fonts"},
+    "width": 200,
+    "height": {"step": 30},
+    "data": {
+      "name": "dataset",
+      "values": [
+        {"Category": "A", "Value": 25},
+        {"Category": "B", "Value": 45},
+        {"Category": "C", "Value": 65}
+      ]
+    },
+    "transform": [{"calculate": "label", "as": "label"}],
+    "params": [
+      {
+        "name": "width",
+        "bind": {
+          "input": "range",
+          "min": 50,
+          "max": 500,
+          "step": 1,
+          "name": "width:"
+        }
+      },
+      {
+        "name": "truncate",
+        "value": true,
+        "bind": {"input": "checkbox", "name": "truncate:"}
+      },
+      {
+        "name": "label",
+        "value": "This is a label",
+        "bind": {"input": "text", "name": "label:"}
+      },
+      {"name": "labelPadding", "value": 5},
+      {"name": "labelMonospacedFont", "value": "Roboto Mono"},
+      {
+        "name": "labelFontSize",
+        "value": 14,
+        "bind": {
+          "input": "range",
+          "min": 8,
+          "max": 35,
+          "step": 1,
+          "name": "font size:"
+        }
+      },
+      {"name": "barColor", "value": "#3b2b1f"},
+      {"name": "label_character_width_multiplier", "expr": "4.51/12"} // tweak this number based on the monospace font
+    ],
+    "encoding": {"y": {"type": "nominal", "field": "Category"}},
+    "layer": [
+      {
+        "name": "bar",
+        "mark": {
+          "type": "bar",
+          "fill": {"expr": "barColor"}
+        },
+        "encoding": {
+          "x": {
+            "type": "quantitative",
+            "field": "Value",
+            "scale": {"domainMax": 100}
+          }
+        }
+      },
+      {
+        "name": "label",
+        "transform": [
+          // calculate the label mark alignment, opacity, offset based on its size and the space available
+          {
+            "calculate": "scale('x', datum['Value']) >= width/2 ? 'right' : 'left'",
+            "as": "align"
+          },
+          {
+            "calculate": "datum['align'] === 'left' ? width - scale('x', datum['Value'])-(2*labelPadding) : scale('x', datum['Value'])-(3*labelPadding)",
+            "as": "labelAvailableWidth"
+          },
+          {
+            "calculate": "labelFontSize * label_character_width_multiplier * length(datum['label'])",
+            "as": "labelActualWidth"
+          },
+          {
+            "calculate": "truncate || datum['labelAvailableWidth'] > datum['labelActualWidth'] ? 1 : 0",
+            "as": "labelOpacity"
+          },
+          {
+            "calculate": "(datum['align'] === 'left' ? 1 : -2) * labelPadding",
+            "as": "labelDx"
+          },
+          {
+            "calculate": "datum['align'] === 'left' ? '#000' : luminance(barColor) >= 0.5 ? '#000' : '#fff'",
+            "as": "fontColor"
+          }
+        ],
+        "mark": {
+          "type": "text",
+          //apply the values determined in the transforms above
+          "align": {"expr": "datum['align']"},
+          "color": {"expr": "datum['fontColor']"},
+          "x": {"expr": "scale('x', datum['Value'])"},
+          "dx": {"expr": "datum['labelDx']"},
+          "limit": {"expr": "datum['labelAvailableWidth']"},
+          "font": {"expr": "labelMonospacedFont"},
+          "fontSize": {"expr": "labelFontSize"},
+          "tooltip": {"expr": "truncate && datum['labelAvailableWidth'] < datum['labelActualWidth'] ? datum['label'] : null"},
+          "opacity": {"expr": "datum['labelOpacity']"}
+        },
+        "encoding": {"text": {"type": "nominal", "field": "label"}}
+      }
+    ],
+    "config": {
+      "axis": {"domain": false, "ticks": false, "grid": false},
+      "axisY": {"labelPadding": 5},
+      "title": {
+        "subtitleFontSize": 15.5,
+        "font": {"expr": "labelMonospacedFont"},
+        "fontSize": 25,
+        "anchor": "start",
+        "fontStyle": "italic",
+        "offset": 30
+      }
+    },
+    "view": {
+      "stroke": {"expr": "barColor"},
+      "strokeOpacity": 0.25,
+      "fill": "transparent"
+    },
+    "background": "transparent"
+  }
