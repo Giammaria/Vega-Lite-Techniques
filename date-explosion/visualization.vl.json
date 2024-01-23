@@ -1,6 +1,6 @@
 {
   "$schema": "https://vega.github.io/schema/vega-lite/v4.json",
-  "description": "A demonstration of how a combination of the sequence() expression and the flatten transform can be combined to explode dates",
+  "description": "A demonstration of how a combination of the sequence() expression and the fold transform can be combined to explode dates",
   "usermeta": {
     "developedBy": "Madison Giammaria",
     "LinkedIn": "https://www.linkedin.com/in/madison-giammaria-58463b33",

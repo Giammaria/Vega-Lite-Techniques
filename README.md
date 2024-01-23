@@ -1,11 +1,11 @@
 # Vega-Lite-Techniques
 This is a growing compilation of some of my favorite visual techniques in Vega-Lite. My hope is that others can learn, critique, and gain inspiration from visiting this collection.
-![](_artifacts/vega-lite.jpg)
+<a>![](_artifacts/vega-lite.jpg)</a>
 ‎ 
 
 ‎
 ## Contextual Y-Axis Behavior
-![](contextual-y-axis/artifacts/screenshot.gif)<br />
+<a>![](contextual-y-axis/artifacts/screenshot.gif)</a><br />
 A technique to dynamically adjust the Y-axis behavior based on whether the measure is a percentage.  Comments are surrounding the <code>domainMax</code> property to make it easier to find in the JSON [specification](contextual-y-axis/visualization.vl.json).
 |Vega-Lite|
 |-|
@@ -16,18 +16,18 @@ A technique to dynamically adjust the Y-axis behavior based on whether the measu
 
 ‎
 ## Date Explosion with Sequence() & Fold
-![](date-explosion/artifacts/screenshot.png)<br />
-A demonstration combining the sequence() expression and the flatten transform to explode dates. The pertinent transforms are surrounded by comments in the [specification](date-explosion/visualization.vl.json).
+<a>![](date-explosion/artifacts/screenshot.png)</a><br />
+A demonstration combining the sequence() expression and the fold transform to explode dates. The pertinent transforms are surrounded by comments in the [specification](date-explosion/visualization.vl.json).
 |Vega-Lite|
 |-|
-|[Open the Chart with the Vega Editor](https://vega.github.io/editor/#/url/vega-lite/N4KABGBEAkDODGALApgWwIaQFxUQFzwAdYsB6UgN2QHN0A6agSz0QFcAjOxge1IRQyUa6ALQAbZskoAWOgCtY3AHaQANOCgATZAgBOjQnh4qckAIJhtqZbDy70R5WG4AzMIm4B3MOjDxuqOyMSg7Gzm4syGCwyACOrMhK8MgAFACUYMgAHoS6OrBh6EqaYJFgLmIOeIml9kqwLty6qH5FYOxR-oHByCV43Jk5Ytzalg46ahqQrDHNyHiYOKAQEJDaVMOEvQBCAJ7YUACy6JqMikpgAOKM6KgY+pjqK1AAMsEA1r0Akia4BMRkUieYF0CRKT6nJR0LqkYKkDCnc4iJi3e43EQAVgAHNIAGwAZnY+Pxk2ekDQ6EYYgOkBRd3QD1QAAFqBgqdCApANABfJ5QdjoeDvai6bisYo0gDELmQyFJUEIDNusAOAG1gJAQqg5aZULAAArIXQAEXQ+1UUGyuRpWNx0gADI7HZBuQBdPmQWCK+DBagHEQAJgDHs0DkWYGWK01tx1UAW7DEcr5qwo6DECRVOHVkEkqBpX2qLTMaigtgZeBp9oAjKRq6QA-aAySLeSJaY61X7fXGyS3TyPXYig0mnmsxoIKQAFTTmdgAAqdWHzVCTgAygtdHhYGAABJGqIzw+T0jjiOn1bwNPwViVao0mLxRLJFL9U3VFKhvCsVCqgDkZc3X9XTSC1X3GD8HG-P9Ek0IC0gAaj1Q0TTNC0kKNU1djSeUyXQTMtHGLlnl5U8NQqKpEjVNZCPdKA8Koz85VdEjng1S8xGvW9Y2mPB4AAMRHBwIK-H9f0YoCLV-ABSVBSCkzQ5N2X9sJbejTEYl1TynI950XRpl0cC4AFFim3Pc8jAI8ZxPCB3SmZIlGqXQDjsBIPQofwkgcNVSPPOM9JHHznlYyBGjETQqIAisWxgyBaMgNSwFVSA8F2LYS2ou9mOTYLI2CqNPGCTQvDVDVuEIGlRU8AB9JRvw6ZzVPwyBdBUN0cvy2lRVYQh2H2LMc0LDLUvS10-IgFj8ojUKqScmlPyg39WqAgBeNaq00-K7M6p8Rl9A48uCyAsgO8aoxcRhkHCmkRqTM7VnQLIzlOqajqMPBExpbZkH0qI3yiIyhm4AplBw16oEqDoxDMJRqE+nB7Q6qbICaS7HJu8qwdelLmETfUTkhP0cE7e6wEm7HFE3A6ZquiLTFujKmm0Zz1J0BzCc2qbyaO-rpou2maVzDLHuenA6rEMRuT87nVkKzQWGp2xkAqnAAHYMRl3BkEYah8EV6oVbAfF7U1yBKl2I0gqmjV7neamGdMPJ4GiqALolqUXE9jLbFFT4aQuvJ2H0IUXU1iAbYZO2lhStLuOqLIK15S0kj22H7eyCto-5671MI7l878sbiJyw7Vk-cMNVTdMJizYA3VN83LbHV7S6O22XvB1YHbjDOseR+PM+mq0WagP8AB9f1UX9AF4NwBSnaAl0kc6gUYjBbjUEYTRNE+pejrTHXfkgBy5t3slGkc1dGAAL1jBtT-O5Q8AAdW13XB87RHSYvbhhhHmbA+DnbUmUtXogOCkXFY3NW6ZQrpAKuGZSr1yRmbM0TckpnVbmSduSwv5xljpVZAzs+6dROtHYelZF64OOgGam5DHZFGoKkX8nlLx4GqviaqWRlKqirK6EQApihyxYCkZhyhWHsM4cpShndVgoB1nrBGdAnQYnvqsH23A-amADsgIOjAQ7ALOmA54ECJolz8q2fwHMcHY1IWeTuNMc4ETvPfBKT18KYKOsVNkvwXBphiKorQARKRKAAMI-yaP7RgAC9F2wCTjIUl8b4HADCoqhRghRhN-pE6JIc4mQyuvhXxYh-FUNRokQeKVMZxPeomAAmgcXEn8ZFxlxtxMwLgnJgEBoQYYIMLj-WIUdVwLgYiDwxMAlxlNB5kUuo4zKSYoBMzQQlBAMF9pGOCmHKAvMZkC1MELVSbiDji0ltLZBQjED62VgcdWps5FvyuYbY2DdUEj1VBgyA2DprdxaoQl2M13amGlF7Fs6jNGuyiTowBodd4R10FHb5+D6a9yThY1ORNvm9yzrMumTi5T5w2bZU8YCxrciAA/view)|
+|[Open the Chart with the Vega Editor](https://vega.github.io/editor/#/url/vega-lite/N4KABGBEAkDODGALApgWwIaQFxUQFzwAdYsB6UgN2QHN0A6agSz0QFcAjOxge1IRQyUa6ALQAbZskoAWOgCtY3AHaQANOCgATZAgBOjQnh4qckAIJhtqZbDy70R5WG4AzMIm4B3MOjDxuqOyMSg7Gzm4syGCwyACOrMhK8MgAFACUYMgAHoS6OrBh6EqaYJFgLtxiJXZFsBW6qH5FYOxR-oHByNXcmTli3NqWDjpqGpCsMQ3IeJg4oBAQkNpU-YRdAEIAnthQALLomoyKSmAA4ozoqBj6mOoLUAAywQDWXQCSJrgExGSknv90CRKV6HJR0dqkYKkDCHY4iJiXa4XEQAVgAHNIAGwAZnY2Oxo3ukDQ6EYYh2kARV3QN1QAAFqBgyeCApANABfO5QdjoeDPai6bisYoUgDELmQyEJUEINMusB2AG1gJAQqgpaZULAAArIXQAEXQ21UUGyuQpaMx0gADLbbZB2QBdLmQWCy+DBag7EQAJh9Ls0DlmYHmC1Vlw1UBm7DEUq5iwo6DECQVOGVkEkqApbzwaDAZjUUFsNLwFOtAEZSBXSD7rT6CSbiSLTNXy9aa3WCU6OS6ako6twGkqNBBSAAqCeTsAAFXs-fqGEcJwAyjNdHhYGAABJ6qKT-dj0gjkPHxbwJPwVhiYYUmLxRLJFJ4biG3MpQN4VioRUAcmL65-R00hNZ9X1SD8v1-RJNEAtIAGotV1A0jRNRC9UNTY0mlIl0FTLQb2PTljxVFxrwIRIlSWG9nSgXDKI-KVHSI+4VXPMRLzIyNxjweAADFB0Xd8HEgn8GMAk0fwAUlQUhJM0WTNh-LDGzo0wGIdY9xwPGc5wHBpQicABRYpNx3PIwAPScjwgZ0xmSJRc10HY7ASF0KH8JIHGHFjTyjXSF28+4FhIypNEo-9S0baDIBoyBVLARVIDwTY1kLKjcxi5igogUNssWTxgk0LwlRVbhCApQVPAAfSUL9WiclS8MgXQVCdeM8spQVWEIdhtjTDNcyzRtktSx1fIgLLspIslHIpCDvx-FrAIAXlW8sNOy2zsqbfxQS9OZxqgLIdlyjqXEYZAqgpEa40OxZ0CyI4TrusMjDwWMKXWZB6iiMCwEMvpuAKZRsLyxZr1aMQzCUagPpwa12rByBBwuhzrrK0Gkbe2NtQOPadjbF7Jo6xR1xOyBzsusLTButLB20Jy1J0ez8fZQ7iaJPqQwpi6rtMTM0oep6cFqsQxDZ7KOagArNBYcnbGQcqcAAdhRKXIBQRhqHweXcyVsBsWtdXr02PVAqmyBrmecnadMPJ4EiqBzrFsUXDdtLbEFV4KXOvJ2H0PkHSlnLLZpa25iSlKuNzLJS05U0kgGT0beyUsI8pvn8Iy9kc98sb7mJ07Fg-YMVUTZMRjTYAnWNo0zbTQ6i6C0PdHDk8waJW2o1TzGOpjtPubNRmoF-AAfH9VB-QBeDcAUp3AIdRGOp5GIgS41BGE0TQPsX7aky1z5IHs2ad+bioHOXRgAC9I1rE+iTPvAAHVkC1nWcDbBGXrPSpBx9xg-YDtbIm7M86EXak3dKpdIDlxTCVGui9IAm3rglRuL0W5tybttLuzVkAO17ttY6Ech5lgXl-I6PpybELtkUagqQfweXPHgKq2IqpZCUoqcsjoRA8mKDLFgKR6HKEYcw1hSlSEdzDJrbWA9rR0DtCiO+YZPbcG9qYX2yB-aMEDsAsGEsgr5wWIXXyO0k4w2ekjQh7cO48ypnNG8ii4qPTwpg5uRUmSfBcEmGIiji4BFJEoAAwj-YePMAFaOtj4qM4SL7Xx2D6BRZCkrhKCf0EJ6jNGB0iYg9AkM8KeLEN4xJKNEgDyShjLJ2NkAAE0diYk-hIxYlSKRmBcI5f6gNgYnDAvg5urgXAxAHiiImDjSYD2mrYtS9ioD02QXFBA0Fk56MlifSAXNxmZwGmgQWTidii3Fr5dWfDEC60VjsVW6spFv25grfWhta6m2HoqRu6CbZRwqrgx2PMXamHFO7RsyjVFO3-howBQcT4qitq81KNMe7xxMfjCO-dyYZ2plnKUOclkLAMRNDQY12RAA/view)|
 |[Open the Vega-Lite Specification](date-explosion/visualization.vl.json)|
 
 ‎ 
 
 ‎
 ## Dynamic Data Labels with Monospace Fonts
-![](dynamic-data-labels/artifacts/screenshot.gif)<br />
+<a>![](dynamic-data-labels/artifacts/screenshot.gif</a><br />
 Dynamically show/hide/truncate/position data labels with monospace fonts based on their allocated space. The calculations for the labels have comments in the JSON [specification](dynamic-data-labels/artifacts/visualization.vl.json).
 |Vega-Lite|
 |-|
@@ -38,7 +38,7 @@ Dynamically show/hide/truncate/position data labels with monospace fonts based o
 
 ‎
 ## Luminance() to Determine Font Color
-![](/luminance/artifacts/screenshot.png)<br />
+<a>![](/luminance/artifacts/screenshot.png)</a><br />
 You can leverage the luminance() expression to determine whether to use dark or light font. Comments are surrounding the luminance expression to make it easier to find in the JSON [specification](luminance/visualization.vl.json).
 <Description>
 |Vega-Lite|
