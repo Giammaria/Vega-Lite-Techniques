@@ -1,0 +1,180 @@
+{
+    "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+      "description": "Autmatically rotate radial labels based on their theta value.",
+      "usermeta": {
+      "developedBy": "Madison Giammaria",
+      "LinkedIn": "https://www.linkedin.com/in/madison-giammaria-58463b33",
+      "email": "giammariam@gmail.com"
+    },
+    "title": {"text": "Automatic Label Rotation"},
+    "width": 500,
+    "height": 350,
+    "params": [
+      {"name": "msPerDay", "expr": "86400000"},
+      {"name": "arcThickness", "value": 30},
+      {
+        "name": "automaticLabelRotation",
+        "value": false,
+        "bind": {"input": "checkbox", "name": "automatic label rotation:"}
+      },
+      {
+        "name": "startRadian",
+        "value": 0,
+        "bind": {
+          "input": "range",
+          "min": 0,
+          "max": 6.28318530718,
+          "step": 0.01,
+          "name": "start radian:"
+        }
+      },
+    ],
+    "data": {"name": "dataset", "values": [{}]},
+    "transform": [
+      {"calculate": "toDate(toString(year(now()))+'-01-01')", "as": "start"},
+      {"calculate": "toDate(toString(year(now()))+'-12-31')", "as": "end"},
+      {
+        "calculate": "sequence(toDate(datum['start']), toDate(datum['end'])+msPerDay, msPerDay)",
+        "as": "date"
+      },
+      {"flatten": ["date"], "as": ["date"]},
+      {"calculate": "+utcFormat(datum['date'], '%m')", "as": "monthNumber"},
+      {"calculate": "utcFormat(datum['date'], '%B')", "as": "month"},
+      {
+        "aggregate": [{"op": "count", "as": "daysPerMonth"}],
+        "groupby": ["monthNumber", "month"]
+      },
+      {"stack": "daysPerMonth"}
+    ],
+    "layer": [
+      {
+        "name": "arc",
+        "mark": {
+          "type": "arc",
+          "theta": {"expr": "theta"},
+          "theta2": {"expr": "theta2"},
+          "radius": {"expr": "min(width, height)/2 - arcThickness"},
+          "radius2": {"expr": "min(width, height)/2"},
+          "fillOpacity": {"expr": "0.75"}
+        },
+        "encoding": {
+          "theta": {
+            "field": "daysPerMonth",
+            "type": "quantitative",
+            "stack": true,
+            "scale": {
+              "range": [{"expr": "startRadian"}, {"expr": "startRadian+2*PI"}]
+            }
+          },
+          "order": {"field": "monthNum", "type": "quantitative"},
+          "color": {
+            "field": "month",
+            "type": "ordinal",
+            "sort": {"field": "monthNumber"},
+            "legend": null,
+            "scale": {
+              "scheme": "magma"
+            }
+          }
+        }
+      },
+      {
+        "transform": [
+          // bring the boolean for automatic label rotation into the transform so it triggers updates as it changes
+          {"calculate": "automaticLabelRotation", "as": "automaticLabelRotation"},
+          // calculate the radius position for the label position so it appears in the center of its respective mark
+          {"calculate": "min(width, height)/2 - arcThickness/2", "as": "radius"},
+          // calculate theta of the start angle. Note - daysPerMonth_start was added to our dataset in the top level stack transform
+          {
+            "calculate": "scale('theta', datum['daysPerMonth_start'])",
+            "as": "theta1"
+          },
+          // calculate theta of the end angle. Note - daysPerMonth_end was added to our dataset in the top level stack transform
+          {
+            "calculate": "scale('theta', datum['daysPerMonth_end'])",
+            "as": "theta2"
+          },
+          // theta for the labels should be halfway between the start angle and end angle
+          {
+            "calculate": "datum['theta1']+(datum['theta2']-datum['theta1'])/2",
+            "as": "theta"
+          },
+          // ensure that the rotation angle always stays under 360. This will make it easier when determing if the angle should be flipped or not.
+          {"calculate": "(datum['theta']*180/PI)%360", "as": "angle"},
+          // to get the desired label angle, we want to flip the label 180 degrees if it's currently between 90 and 270
+          {
+            "calculate": "datum['automaticLabelRotation'] ? (datum['angle'] + (datum['angle'] >= 90 && datum['angle'] <= 270 ? 180 : 0)) : datum['angle']",
+            "as": "angle"
+          },
+          // use luminance to get the label colors
+          {
+            "calculate": "luminance(scale('color', datum['month'])) > 0.5 ? '#000 ': '#fff'",
+            "as": "fontColor"
+          }
+        ],
+        "layer": [
+          {
+            "name": "labels",
+            "mark": {
+              "type": "text",
+              "fontSize": 14,
+              "align": "center",
+              "baseline": "middle",
+              "radius": {"expr": "datum['radius']"},
+              "angle": {"expr": "datum['angle']"},
+              "theta": {"expr": "datum['theta']"},
+              "color": {"expr": "datum['fontColor']"}
+            },
+            "encoding": {"text": {"field": "month", "type": "ordinal"}}
+          },
+          {
+            "name": "rotationIndicator",
+            "transform": [
+              {
+                "calculate": "datum['automaticLabelRotation'] ? '✔️' : ((datum['angle'] >= 90 && datum['angle'] <= 270 ? '❌' : '✔️')) ",
+                "as": "indicator"
+              }
+            ],
+            "mark": {
+              "type": "text",
+              "align": "center",
+              "baseline": "middle",
+              "radius": {"expr": "datum['radius']+arcThickness"},
+              "theta": {"expr": "datum['theta']"}
+            },
+            "encoding": {
+              "text": {"field": "indicator", "type": "nominal"}
+            }
+          }
+        ]
+      },
+      {
+        "name": "legend",
+        "transform": [{"filter": "datum['monthNumber']<=2"}],
+        "mark": {
+          "type": "text",
+          "x": 0,
+          "y": {"expr": "height + 30"},
+          "lineHeight": 30,
+          "fontSize": 14,
+          "align": "left",
+          "text": {"expr": "['✔️ - proper rotation', '❌ - improper rotation', '‎']"}
+        }
+      }
+    ],
+    "config": {
+      "background": "transparent",
+      "title": {
+        "subtitleFontSize": 13.5,
+        "subtitlePadding": 10,
+        "fontSize": 25,
+        "anchor": "start",
+        "fontStyle": "italic",
+        "color": "#666",
+        "dy": {"expr": "-70"},
+        "dx": {"expr": "0"},
+        "orient": "none",
+        "zindex": {"expr": "99"}
+      }
+    }
+  }
