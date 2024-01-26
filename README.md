@@ -3,10 +3,8 @@ This is a growing compilation of some of my favorite visual techniques in [Vega-
 <a>![](_artifacts/vega-lite.jpg)</a>
 ‎ 
 
-```diff 
--- If you plan to migrate any of these specifications into Deneb*, be sure to remove the comments beforehand. --
-```
-<sup>* Learn more about Deneb for Power BI [here](https://deneb-viz.github).</sup>
+<code>If you plan to migrate any of these specifications into Deneb, be sure to remove the comments beforehand.</code><br></h3>
+<small>⤷ <em>Learn more about Deneb for Power BI [here](https://deneb-viz.github).</em></small>
 
 ‎
 ## Contextual Y-Axis Behavior
