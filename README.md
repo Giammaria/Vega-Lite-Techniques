@@ -67,7 +67,7 @@ Leverage the <code>luminance()</code> expression against your backgrounds to det
 ‎
 ## Use Params to Enable Light & Dark Modes
 ![](light-dark-mode/artifacts/screenshot.gif)<br>
-Use params to theme your visuals for light and dark modes. Use point selectors to toggle between the modes.
+Use params to theme your visuals for light and dark modes. Use point selectors to toggle between the modes. Comments have been added to describe all of the params.
 |Vega-Lite|
 |-|
 |[Open the Chart with the Vega Editor](https://vega.github.io/editor/#/gist/3e5aad3acd6e9c2a8ee12415b44636ad/spec.json/view)|
