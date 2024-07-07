@@ -1,0 +1,276 @@
+{
+    "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+    "description": "A demonstration of word wrapping with monospace fonts. The user should tweak the params, especially the multipliers, based on the font in use.",
+    "usermeta": {
+      "developedBy": "Madison Giammaria",
+      "LinkedIn": "https://www.linkedin.com/in/madison-giammaria-58463b33",
+      "email": "giammariam@gmail.com"
+    },
+    "title": {"text": "Word Wrapping", "subtitle": "With Monospace Fonts"},
+    "params": [
+      {
+        "name": "text",
+        "value": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Pulvinar neque laoreet suspendisse interdum consectetur libero id faucibus. Turpis egestas maecenas pharetra convallis. Felis donec et odio pellentesque diam volutpat commodo. Egestas sed tempus urna et. Sed nisi lacus sed viverra. Tempus urna et pharetra pharetra massa massa ultricies mi. Praesent elementum facilisis leo vel. Condimentum id venenatis a condimentum. Quam lacus suspendisse faucibus interdum posuere lorem ipsum. Tristique sollicitudin nibh sit amet commodo nulla. Scelerisque felis imperdiet proin fermentum. A scelerisque purus semper eget duis at tellus at urna. Gravida rutrum quisque non tellus orci ac auctor augue."
+      },
+      {
+        "name": "characterLength",
+        "value": 123,
+        "bind": {
+          "input": "range",
+          "min": 1,
+          "max": 763,
+          "step": 1,
+          "name": "text length"
+        }
+      },
+      {"name": "font", "value": "consolas"},
+      {
+        "name": "containerTotalWidth",
+        "value": 300,
+        "bind": {
+          "input": "range",
+          "min": 300,
+          "max": 500,
+          "step": 1,
+          "name": "container width"
+        }
+      },
+      {
+        "name": "textFontSize",
+        "value": 14,
+        "bind": {
+          "input": "range",
+          "min": 10,
+          "max": 25,
+          "step": 1,
+          "name": "font size"
+        }
+      },
+      {
+        "name": "textHorizontalPadding",
+        "value": 15,
+        "bind": {
+          "input": "range",
+          "min": 15,
+          "max": 35,
+          "step": 1,
+          "name": "text ↔ pad(px)"
+        }
+      },
+      {
+        "name": "textVerticalPadding",
+        "value": 8,
+        "bind": {
+          "input": "range",
+          "min": 0,
+          "max": 50,
+          "step": 1,
+          "name": "text ↕ pad(px)"
+        }
+      },
+      {
+        "name": "textLineVerticalPadding",
+        "value": 3,
+        "bind": {
+          "input": "range",
+          "min": 0,
+          "max": 30,
+          "step": 1,
+          "name": "line ↕ pad(px)"
+        }
+      },
+      {"name": "textCharacterWidthMultiplier", "expr": "0.55+0.015*(textFontSize-11)"},
+      {"name": "textCharacterHeightMultiplier", "expr": "1"},
+      {"name": "width", "expr": "containerTotalWidth"},
+      {"name": "height", "expr": "data('data_0')[0]['containerHeight']"}
+    ],
+    "data": {"name": "dataset", "values": [{}]},
+    "transform": [
+      // bring the containerWidth param into the transform
+      {"calculate": "containerTotalWidth", "as": "containerTotalWidth"},
+      // bring the font size param into the transform
+      {"calculate": "textFontSize", "as": "textFontSize"},
+      // bring the characterLength param into the transform
+      {"calculate": "characterLength", "as": "characterLength"},
+      // limit the text to the specified number of characters
+      {
+        "calculate": "datum['characterLength'] === 0 ? '' : slice(text, 0, datum['characterLength'])",
+        "as": "text"
+      },
+      // calculate the width that each line is able to take up
+      {
+        "calculate": "datum['containerTotalWidth']-2*textHorizontalPadding",
+        "as": "lineAllowableWidth"
+      },
+      // calculate the character width
+      {
+        "calculate": "datum['textFontSize']*textCharacterWidthMultiplier",
+        "as": "textCharacterWidth"
+      },
+      // calculate the character height
+      {
+        "calculate": "textLineVerticalPadding+ceil(datum['textFontSize']*textCharacterHeightMultiplier)",
+        "as": "textCharacterHeight"
+      },
+      // break the text up into an array of words
+      {"calculate": "split(datum['text'], ' ')", "as": "wordArray"},
+      // blow up the array of words to individual rows
+      {"flatten": ["wordArray"], "as": ["word"]},
+      // create an index for each word
+      {"window": [{"op": "row_number", "as": "wordIndex"}]},
+      // make the word index 0-based
+      {"calculate": "datum['wordIndex']-1", "as": "wordIndex"},
+      // calculate the length of each word
+      {"calculate": "length(datum['word'])", "as": "wordLength"},
+      // calculate the width of each word
+      {
+        "calculate": "(datum['wordLength']+1)*datum['textCharacterWidth']",
+        "as": "wordWidth"
+      },
+      // create a running total of the word widths
+      {
+        "window": [
+          {"op": "sum", "field": "wordWidth", "as": "wordWidthRunningSum"}
+        ]
+      },
+      // account for spaces in the running total of word widths
+      {
+        "calculate": "datum['wordWidthRunningSum']+(datum['wordIndex']*datum['textCharacterWidth'])",
+        "as": "wordWidthRunningSumWithSpaces"
+      },
+      // calculate which line each word should go on
+      {
+        "calculate": "floor(datum['wordWidthRunningSumWithSpaces']/datum['lineAllowableWidth'])",
+        "as": "lineIndex"
+      },
+      // calculate a running total of word character lengths for each row
+      {
+        "window": [
+          {"op": "sum", "field": "wordLength", "as": "wordLengthRunningSum"}
+        ],
+        "groupby": ["lineIndex"]
+      },
+      // get the total length of characters in each line
+      {
+        "joinaggregate": [
+          {
+            "field": "wordLengthRunningSum",
+            "op": "max",
+            "as": "lineCharacterLength"
+          }
+        ],
+        "groupby": ["lineIndex"]
+      },
+      // count the number of words per line
+      {
+        "joinaggregate": [{"op": "count", "as": "wordCountPerLine"}],
+        "groupby": ["lineIndex"]
+      },
+      // account for spaces in the lineCharacterLength 
+      {
+        "calculate": "datum['lineCharacterLength']+(datum['wordCountPerLine']-1)",
+        "as": "lineCharacterLength"
+      },
+      // aggregate to have one row per line
+      {
+        "aggregate": [{"op": "min", "field": "text", "as": "text"}],
+        "groupby": [
+          "text",
+          "textFontSize",
+          "containerTotalWidth",
+          "wordArray",
+          "lineIndex",
+          "lineCharacterLength",
+          "textCharacterHeight",
+          "lineAllowableWidth",
+          "textCharacterWidth"
+        ]
+      },
+      // get the last row's line character length
+      {
+        "window": [
+          {
+            "op": "lag",
+            "field": "lineCharacterLength",
+            "as": "lastCharacterLength"
+          }
+        ]
+      },
+      // get the character index for the beginning of each line
+      {
+        "calculate": "isValid(datum['lastCharacterLength']) ? datum['lastCharacterLength']+1 : 0",
+        "as": "arrayStartIndex"
+      },
+      {
+        "window": [
+          {"op": "sum", "field": "arrayStartIndex", "as": "arrayStartIndex"}
+        ]
+      },
+      // get the character index for the end of each line
+      {
+        "calculate": "datum['arrayStartIndex']+datum['lineCharacterLength']",
+        "as": "arrayEndIndex"
+      },
+      // calculate the width of each line
+      {
+        "calculate": "(datum['arrayEndIndex'] - datum['arrayStartIndex'])*datum['textCharacterWidth']",
+        "as": "lineWidth"
+      },
+      // calculate the text lines based on the indices 
+      {
+        "calculate": "slice(datum['text'], datum['arrayStartIndex'], datum['arrayEndIndex'])",
+        "as": "textLine"
+      },
+      // calculate number of lines
+      {"joinaggregate": [{"op": "count", "as": "lines"}]},
+      // calculate the height of the container (rect) surrounding the text
+      {
+        "calculate": "round(datum['textCharacterHeight']*(datum['lines'])+2*textVerticalPadding)",
+        "as": "containerHeight"
+      },
+      // calculate the y position of each line
+      {
+        "calculate": "datum['textCharacterHeight']*(datum['lineIndex'])+textVerticalPadding",
+        "as": "y"
+      },
+    ],
+    "layer": [
+      {
+        "transform": [{"filter": "datum['lineIndex']===0"}],
+        "mark": {
+          "type": "rect",
+          "font": {"expr": "font"},
+          "x": {"expr": "datum['containerTotalWidth']/2"},
+          "y": {"expr": "datum['containerHeight']/2"},
+          "width": {"expr": "datum['containerTotalWidth']"},
+          "height": {"expr": "datum['containerHeight']"},
+          "fill": "goldenrod",
+          "fillOpacity": 0.25
+        }
+      },
+      {
+        "mark": {
+          "type": "text",
+          "font": {"expr": "font"},
+          "fontSize": {"expr": "datum['textFontSize']"},
+          "align": "left",
+          "baseline": "top",
+          "x": {"expr": "textHorizontalPadding"},
+          "y": {"expr": "datum['y']"},
+          "dy": {"expr": "textLineVerticalPadding/2"},
+          "text": {"expr": "datum['textLine']"}
+        }
+      }
+    ],
+    "config": {
+      "background": "transparent",
+      "title": {
+        "subtitleFontSize": 15.5,
+        "font": {"expr": "font"},
+        "fontSize": 25,
+        "anchor": "start",
+        "fontStyle": "italic",
+        "offset": 15
+      }
+    }
+  }

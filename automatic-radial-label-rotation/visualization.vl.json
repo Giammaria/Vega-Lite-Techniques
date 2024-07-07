@@ -1,6 +1,6 @@
 {
     "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
-      "description": "Autmatically rotate radial labels based on their theta value.",
+      "description": "Automatically rotate radial labels based on their theta value.",
       "usermeta": {
       "developedBy": "Madison Giammaria",
       "LinkedIn": "https://www.linkedin.com/in/madison-giammaria-58463b33",

@@ -1,0 +1,53 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "description": "Two vertically concatenated charts that show a histogram of precipitation in Seattle and the relationship between min and max temperature.",
+  "usermeta": {
+    "developedBy": "Madison Giammaria",
+    "LinkedIn": "https://www.linkedin.com/in/madison-giammaria-58463b33",
+    "email": "giammariam@gmail.com"
+  },
+  "data": {"url": "data/weather.csv"},
+  "params": [
+    // input parameter to allow for toggling of visual(s)
+    {
+      "name": "chartType",
+      "value": "VConcat",
+      "bind": {
+        "input": "select",
+        "name": "View:",
+        "options": ["VConcat", "Mean of Precipitation", "Min/Max Temperature"]
+      }
+    },
+    // dynamically update padding to either make only one visual visible at a time, or to show the vertical concatenation.
+    {
+      "name": "padding",
+      "expr": "chartType !== 'VConcat' ? {top: chartType === 'Mean of Precipitation' ? 0 : -childHeight-50, bottom: chartType === 'Mean of Precipitation' ? -childHeight-50 : 0} : {top: 5, bottom: 5}"
+    }
+  ],
+  "transform": [{"filter": "datum.location === 'Seattle'"}],
+  "vconcat": [
+    {
+      "height": 0,
+      "view": {"stroke": "transparent"},
+      "mark": {"type": "bar"},
+      "encoding": {
+        "x": {"timeUnit": "month", "field": "date", "type": "ordinal"},
+        "y": {
+          "aggregate": "mean",
+          "field": "precipitation",
+          "type": "quantitative"
+        }
+      }
+    },
+    {
+      "mark": "point",
+      "encoding": {
+        "x": {"field": "temp_min", "type": "quantitative", "bin": true},
+        "y": {"field": "temp_max", "type": "quantitative", "bin": true},
+        "size": {"aggregate": "count", "type": "quantitative"}
+      }
+    }
+  ],
+  // resolve the legend to independent so that it's only visible for the scatter plot visual
+  "resolve": {"legend": {"size": "independent"}}
+}
