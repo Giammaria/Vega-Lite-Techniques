@@ -3,8 +3,20 @@ This is a growing compilation of some of my favorite visual techniques in [Vega-
 <a>![](_artifacts/vega-lite.jpg)</a>
 ‎ 
 
-<code>If you plan to migrate any of these specifications into Deneb, be sure to remove the comments beforehand.</code><br></h3>
+<code>These specifications are compatible with Deneb!</code><br></h3>
 <small>⤷ <em>Learn more about Deneb for Power BI [here](https://deneb-viz.github).</em></small>
+
+‎ 
+
+‎
+## Animation - Easing Functions Visualized <small><sup><em><code>New!</code></em></sup></small>
+
+![](animation-easing/artifacts/screenshot.gif)<br>
+Here you can compare different easing functions and see their respective formulas. This isn't a comprehensive list of easing functions, but these are definitely some popular ones. Special thanks to Pavithra Kodmad for writing [this excellent article](https://css-tricks.com/ease-y-breezy-a-primer-on-easing-functions/) on understanding easing! I originally [made this visual in Vega](https://github.com/Giammaria/Vega-Visuals/tree/main?tab=readme-ov-file#easing-functions-visualized) a while back. Until now, I would not have thought that this would be feasible in Vega-Lite.
+|Vega-Lite|
+|-|
+|[Open the Chart with the Vega Editor](https://vega.github.io/editor/#/gist/f733550116a6c698adccff818b721554/spec.json/view)|
+|[Open the Vega-Lite Specification](animation-easing/visualization.vl.json)|
 
 ‎ 
 
